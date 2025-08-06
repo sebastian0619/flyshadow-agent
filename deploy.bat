@@ -11,9 +11,9 @@ set "DOCKER_COMPOSE_URL=https://raw.githubusercontent.com/sebastian0619/flyshado
 set "IMAGE_NAME=ghcr.io/sebastian0619/flyshadow-agent:latest"
 set "CONTAINER_NAME=flyshadow-agent"
 
-REM 配置变量 - 用户可以根据需要修改
-set "AGENT_PASSWORD=12c5a79c-b3a5-11ef-a595-0016d7606fb8"
-set "AGENT_NODE_ID=165"
+REM 配置变量 - 将通过交互式输入获取
+set "AGENT_PASSWORD="
+set "AGENT_NODE_ID="
 
 echo 🚀 FlyShadow Agent 一键部署脚本 (Windows版本)
 echo ================================================
@@ -56,6 +56,24 @@ if errorlevel 1 (
     exit /b 1
 )
 echo [INFO] docker-compose.yml 下载成功
+
+REM 交互式输入配置
+echo [STEP] 请输入Agent配置信息...
+:input_password
+set /p AGENT_PASSWORD="请输入Agent密码: "
+if "%AGENT_PASSWORD%"=="" (
+    echo [ERROR] 密码不能为空，请重新输入
+    goto input_password
+)
+
+:input_node_id
+set /p AGENT_NODE_ID="请输入节点ID: "
+if "%AGENT_NODE_ID%"=="" (
+    echo [ERROR] 节点ID不能为空，请重新输入
+    goto input_node_id
+)
+
+echo [INFO] 配置信息输入完成
 
 REM 创建配置文件
 echo [STEP] 创建配置文件...

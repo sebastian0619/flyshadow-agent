@@ -5,9 +5,9 @@ services:
     network_mode: host
     restart: unless-stopped
     environment:
-      # Agent配置
-      - AGENT_PASSWORD=${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}
-      - AGENT_NODE_ID=${AGENT_NODE_ID:-165}
+      # Agent配置 - 通过脚本交互式输入
+      - AGENT_PASSWORD=${AGENT_PASSWORD}
+      - AGENT_NODE_ID=${AGENT_NODE_ID}
     volumes:
       # 配置文件挂载到程序期望的路径
       - ./config.yaml:/etc/flyshadow/config.yaml:ro 

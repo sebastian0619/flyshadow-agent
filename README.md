@@ -62,28 +62,23 @@ docker ps | grep flyshadow-agent
 
 ## 📝 配置说明
 
-部署脚本会自动创建配置文件，您可以通过修改脚本中的变量来自定义：
+部署脚本会通过交互式输入获取配置信息，运行时会提示您输入：
 
-**Linux/macOS**:
-```bash
-AGENT_PASSWORD="your-password"
-AGENT_NODE_ID="your-node-id"
-```
+### 交互式配置
 
-**Windows**:
-```cmd
-set "AGENT_PASSWORD=your-password"
-set "AGENT_NODE_ID=your-node-id"
-```
+运行脚本时，您需要输入：
+
+1. **Agent密码** - 您的Agent访问密码
+2. **节点ID** - 您的节点标识符
 
 ### 自动生成的配置文件
 
-部署脚本会自动创建 `config.yaml` 文件：
+部署脚本会根据您的输入自动创建 `config.yaml` 文件：
 
 ```yaml
-password: 12c5a79c-b3a5-11ef-a595-0016d7606fb8
+password: your-input-password
 node_id: 
-  - 165
+  - your-input-node-id
 ```
 
 ## 🐛 故障排除

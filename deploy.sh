@@ -19,9 +19,9 @@ DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/sebastian0619/flyshadow-ag
 IMAGE_NAME="ghcr.io/sebastian0619/flyshadow-agent:latest"
 CONTAINER_NAME="flyshadow-agent"
 
-# Agent配置变量 - 用户可以根据需要修改
-AGENT_PASSWORD="${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}"
-AGENT_NODE_ID="${AGENT_NODE_ID:-165}"
+# Agent配置变量 - 将通过交互式输入获取
+AGENT_PASSWORD=""
+AGENT_NODE_ID=""
 
 # 打印带颜色的消息
 print_message() {
@@ -75,6 +75,31 @@ download_compose() {
         print_error "下载 docker-compose.yml 失败"
         exit 1
     fi
+}
+
+# 交互式输入配置
+input_config() {
+    print_step "请输入Agent配置信息..."
+    
+    # 输入密码
+    while [ -z "$AGENT_PASSWORD" ]; do
+        echo -n "请输入Agent密码: "
+        read -r AGENT_PASSWORD
+        if [ -z "$AGENT_PASSWORD" ]; then
+            print_error "密码不能为空，请重新输入"
+        fi
+    done
+    
+    # 输入节点ID
+    while [ -z "$AGENT_NODE_ID" ]; do
+        echo -n "请输入节点ID: "
+        read -r AGENT_NODE_ID
+        if [ -z "$AGENT_NODE_ID" ]; then
+            print_error "节点ID不能为空，请重新输入"
+        fi
+    done
+    
+    print_message "配置信息输入完成"
 }
 
 # 创建配置文件
@@ -215,6 +240,9 @@ main() {
     
     # 下载配置文件
     download_compose
+    
+    # 交互式输入配置
+    input_config
     
     # 创建配置文件
     create_config

@@ -61,9 +61,11 @@ deploy.bat
 部署成功后，您将看到：
 
 - **容器名称**: `flyshadow-agent`
-- **镜像**: `ghcr.io/sebastian0619/flyshadow-agent:main`
+- **镜像**: `ghcr.io/sebastian0619/flyshadow-agent:latest`
+- **网络模式**: host (直接使用主机网络)
 - **端口**: 9999
 - **访问地址**: http://localhost:9999
+- **配置文件**: `./config.yaml` (自动生成)
 
 ## 🔧 常用命令
 
@@ -132,22 +134,52 @@ docker ps | grep flyshadow-agent
 
 ## 📝 配置文件
 
-部署脚本会自动下载 `docker-compose.yml` 文件，您也可以手动修改配置：
+### 环境变量配置
+
+您可以通过修改脚本中的配置变量来自定义Agent设置：
+
+**Linux/macOS (deploy.sh)**:
+```bash
+# Agent配置变量 - 用户可以根据需要修改
+AGENT_PASSWORD="${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}"
+AGENT_NODE_ID="${AGENT_NODE_ID:-165}"
+```
+
+**Windows (deploy.bat)**:
+```cmd
+REM 配置变量 - 用户可以根据需要修改
+set "AGENT_PASSWORD=12c5a79c-b3a5-11ef-a595-0016d7606fb8"
+set "AGENT_NODE_ID=165"
+```
+
+### 自动生成的配置文件
+
+部署脚本会自动创建 `config.yaml` 文件：
+
+```yaml
+password: 12c5a79c-b3a5-11ef-a595-0016d7606fb8
+node_id: 
+  - 165
+```
+
+### Docker Compose 配置
+
+部署脚本会自动下载 `docker-compose.yml` 文件：
 
 ```yaml
 version: '3.8'
 
 services:
   flyshadow-agent:
-    image: ghcr.io/sebastian0619/flyshadow-agent:main
+    image: ghcr.io/sebastian0619/flyshadow-agent:latest
     container_name: flyshadow-agent
-    ports:
-      - "9999:9999"  # 可以修改端口映射
+    network_mode: host  # 使用主机网络模式
     restart: unless-stopped
     environment:
-      # 可以添加环境变量
+      - AGENT_PASSWORD=${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}
+      - AGENT_NODE_ID=${AGENT_NODE_ID:-165}
     volumes:
-      # 可以添加数据卷挂载
+      - ./config.yaml:/app/config.yaml:ro  # 配置文件挂载
 ```
 
 ## 🆘 获取帮助

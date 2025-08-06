@@ -7,8 +7,9 @@ services:
     network_mode: host
     restart: unless-stopped
     environment:
-      # 可以在这里添加环境变量
-      # - ENV_VAR=value
+      # Agent配置
+      - AGENT_PASSWORD=${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}
+      - AGENT_NODE_ID=${AGENT_NODE_ID:-165}
     volumes:
-      # 如果需要持久化数据，可以添加卷挂载
-      # - ./data:/app/data 
+      # 配置文件挂载
+      - ./config.yaml:/app/config.yaml:ro 

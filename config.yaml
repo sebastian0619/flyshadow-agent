@@ -1,0 +1,3 @@
+password: ${AGENT_PASSWORD}
+node_id: 
+  - ${AGENT_NODE_ID} 

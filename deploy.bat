@@ -8,8 +8,12 @@ REM 仓库: https://github.com/sebastian0619/flyshadow-agent
 
 set "REPO_URL=https://github.com/sebastian0619/flyshadow-agent"
 set "DOCKER_COMPOSE_URL=https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/docker-compose.yml"
-set "IMAGE_NAME=ghcr.io/sebastian0619/flyshadow-agent:main"
+set "IMAGE_NAME=ghcr.io/sebastian0619/flyshadow-agent:latest"
 set "CONTAINER_NAME=flyshadow-agent"
+
+REM 配置变量 - 用户可以根据需要修改
+set "AGENT_PASSWORD=12c5a79c-b3a5-11ef-a595-0016d7606fb8"
+set "AGENT_NODE_ID=165"
 
 echo 🚀 FlyShadow Agent 一键部署脚本 (Windows版本)
 echo ================================================
@@ -52,6 +56,20 @@ if errorlevel 1 (
     exit /b 1
 )
 echo [INFO] docker-compose.yml 下载成功
+
+REM 创建配置文件
+echo [STEP] 创建配置文件...
+(
+echo password: %AGENT_PASSWORD%
+echo node_id: 
+echo   - %AGENT_NODE_ID%
+) > config.yaml
+if errorlevel 1 (
+    echo [ERROR] 创建 config.yaml 失败
+    pause
+    exit /b 1
+)
+echo [INFO] config.yaml 创建成功
 
 REM 拉取最新镜像
 echo [STEP] 拉取最新 Docker 镜像...

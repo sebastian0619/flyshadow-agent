@@ -19,6 +19,10 @@ DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/sebastian0619/flyshadow-ag
 IMAGE_NAME="ghcr.io/sebastian0619/flyshadow-agent:latest"
 CONTAINER_NAME="flyshadow-agent"
 
+# Agent配置变量 - 用户可以根据需要修改
+AGENT_PASSWORD="${AGENT_PASSWORD:-12c5a79c-b3a5-11ef-a595-0016d7606fb8}"
+AGENT_NODE_ID="${AGENT_NODE_ID:-165}"
+
 # 打印带颜色的消息
 print_message() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -69,6 +73,24 @@ download_compose() {
         print_message "docker-compose.yml 下载成功"
     else
         print_error "下载 docker-compose.yml 失败"
+        exit 1
+    fi
+}
+
+# 创建配置文件
+create_config() {
+    print_step "创建配置文件..."
+    
+    cat > config.yaml << EOF
+password: $AGENT_PASSWORD
+node_id: 
+  - $AGENT_NODE_ID
+EOF
+    
+    if [ $? -eq 0 ]; then
+        print_message "config.yaml 创建成功"
+    else
+        print_error "创建 config.yaml 失败"
         exit 1
     fi
 }
@@ -193,6 +215,9 @@ main() {
     
     # 下载配置文件
     download_compose
+    
+    # 创建配置文件
+    create_config
     
     # 拉取镜像
     pull_image

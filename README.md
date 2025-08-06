@@ -39,7 +39,7 @@ powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/s
 - **网络模式**: host (直接使用主机网络)
 - **端口**: 9999
 - **访问地址**: http://localhost:9999
-- **配置文件**: `./config.yaml` (自动生成)
+- **配置文件**: `./config.yaml` (自动生成，挂载到容器内的 `/etc/flyshadow/config.yaml`)
 
 ## 🔧 常用命令
 

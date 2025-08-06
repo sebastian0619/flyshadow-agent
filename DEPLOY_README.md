@@ -1,14 +1,37 @@
 # FlyShadow Agent 一键部署指南
 
-## 🚀 快速开始
+> 🚀 **一条命令即可完成部署！** 支持 Linux、macOS 和 Windows 系统
+
+## ⚡ 极速部署
+
+**Linux/macOS**: `curl -fsSL https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.sh | bash`
+
+**Windows**: `powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.bat' -OutFile 'deploy.bat'" && deploy.bat`
+
+## 🚀 一条命令部署
 
 ### Linux/macOS 用户
 
 ```bash
-# 下载并运行部署脚本
+# 一条命令完成部署
 curl -fsSL https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.sh | bash
+```
 
-# 或者下载后运行
+### Windows 用户
+
+```cmd
+# 一条命令完成部署
+powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.bat' -OutFile 'deploy.bat'" && deploy.bat
+```
+
+## 📋 手动部署（可选）
+
+如果您想手动下载脚本后运行：
+
+### Linux/macOS 用户
+
+```bash
+# 下载脚本
 wget https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.sh
 chmod +x deploy.sh
 ./deploy.sh
@@ -17,7 +40,7 @@ chmod +x deploy.sh
 ### Windows 用户
 
 ```cmd
-# 下载并运行部署脚本
+# 下载脚本
 powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.bat' -OutFile 'deploy.bat'"
 deploy.bat
 ```

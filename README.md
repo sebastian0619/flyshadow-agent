@@ -6,7 +6,7 @@
 
 **Linux/macOS**: 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.sh | bash
+curl -H "Accept: application/vnd.github.v3.raw" https://api.github.com/repos/sebastian0619/flyshadow-agent/contents/deploy.sh | bash
 ```
 
 **Windows**: 
@@ -76,19 +76,70 @@ set "AGENT_PASSWORD=your-password"
 set "AGENT_NODE_ID=your-node-id"
 ```
 
+### 自动生成的配置文件
+
+部署脚本会自动创建 `config.yaml` 文件：
+
+```yaml
+password: 12c5a79c-b3a5-11ef-a595-0016d7606fb8
+node_id: 
+  - 165
+```
+
 ## 🐛 故障排除
 
-如果遇到问题，请检查：
+### 常见问题：
 
-1. **Docker 未安装** - 安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-2. **网络连接失败** - 确保可以访问 GitHub
-3. **镜像拉取失败** - 检查 GitHub Container Registry 连接
-4. **端口被占用** - 检查端口 9999 是否被占用
+1. **Docker 未安装**
+   ```
+   [ERROR] Docker 未安装，请先安装 Docker
+   ```
+   **解决方案**: 安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+2. **网络连接失败**
+   ```
+   [ERROR] 无法连接到 GitHub，请检查网络连接
+   ```
+   **解决方案**: 检查网络连接，确保可以访问 GitHub
+
+3. **镜像拉取失败**
+   ```
+   [ERROR] 镜像拉取失败
+   ```
+   **解决方案**: 
+   - 检查网络连接
+   - 确保 GitHub Container Registry 可访问
+   - 尝试手动拉取：`docker pull ghcr.io/sebastian0619/flyshadow-agent:latest`
+
+4. **端口被占用**
+   ```
+   [ERROR] 服务启动失败
+   ```
+   **解决方案**: 
+   - 检查端口 9999 是否被占用：`netstat -tulpn | grep 9999`
+   - 修改 `docker-compose.yml` 中的端口映射
+
+## 🔄 更新服务
+
+要更新到最新版本，只需重新运行部署脚本：
+
+```bash
+./deploy.sh
+```
+
+脚本会自动：
+- 下载最新的配置文件
+- 拉取最新的镜像
+- 重启服务
+
+## 🆘 获取帮助
+
+如果遇到问题，可以：
+
+1. 查看服务日志：`docker logs flyshadow-agent`
+2. 检查容器状态：`docker ps -a`
+3. 提交 Issue：https://github.com/sebastian0619/flyshadow-agent/issues
 
 ## 📄 许可证
 
-本项目遵循 MIT 许可证。
-
----
-
-**详细文档**: [DEPLOY_README.md](DEPLOY_README.md) 
+本项目遵循 MIT 许可证。 

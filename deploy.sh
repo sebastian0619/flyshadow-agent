@@ -83,7 +83,7 @@ check_docker() {
         exit 1
     fi
     
-    if ! docker compose version &> /dev/null; then
+    if ! docker compose --help >/dev/null 2>&1; then
         print_error "Docker Compose 未安装，请先安装 Docker Compose"
         exit 1
     fi

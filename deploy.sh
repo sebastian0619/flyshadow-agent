@@ -83,7 +83,8 @@ check_docker() {
         exit 1
     fi
     
-    if ! docker compose --help >/dev/null 2>&1; then
+    # 检查 Docker Compose 是否可用
+    if ! docker compose --help >/dev/null 2>&1 && ! docker-compose --help >/dev/null 2>&1; then
         print_error "Docker Compose 未安装，请先安装 Docker Compose"
         exit 1
     fi
@@ -224,8 +225,11 @@ cleanup_old_container() {
 start_service() {
     print_step "启动 FlyShadow Agent 服务..."
     
+    # 尝试使用 docker compose 启动服务
     if docker compose up -d; then
         print_message "服务启动成功"
+    elif docker-compose up -d; then
+        print_message "服务启动成功 (使用 docker-compose)"
     else
         print_error "服务启动失败"
         exit 1
@@ -249,8 +253,8 @@ check_status() {
         echo ""
         echo "🔧 常用命令："
         echo "   - 查看日志: docker logs $CONTAINER_NAME"
-        echo "   - 停止服务: docker compose down"
-        echo "   - 重启服务: docker compose restart"
+        echo "   - 停止服务: docker compose down (或 docker-compose down)"
+        echo "   - 重启服务: docker compose restart (或 docker-compose restart)"
         echo "   - 更新服务: ./deploy.sh"
     else
         print_error "❌ 服务启动失败，请检查日志"

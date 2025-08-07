@@ -28,7 +28,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-docker-compose --version >nul 2>&1
+docker compose version >nul 2>&1
 if errorlevel 1 (
     echo [ERROR] Docker Compose 未安装，请先安装 Docker Compose
     pause
@@ -113,7 +113,7 @@ if not errorlevel 1 (
 
 REM 启动服务
 echo [STEP] 启动 FlyShadow Agent 服务...
-docker-compose up -d
+docker compose up -d
 if errorlevel 1 (
     echo [ERROR] 服务启动失败
     pause
@@ -137,8 +137,8 @@ if not errorlevel 1 (
     echo.
     echo 🔧 常用命令：
     echo    - 查看日志: docker logs %CONTAINER_NAME%
-    echo    - 停止服务: docker-compose down
-    echo    - 重启服务: docker-compose restart
+    echo    - 停止服务: docker compose down
+    echo    - 重启服务: docker compose restart
     echo    - 更新服务: deploy.bat
 ) else (
     echo [ERROR] ❌ 服务启动失败，请检查日志

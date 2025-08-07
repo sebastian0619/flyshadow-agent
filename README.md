@@ -27,7 +27,7 @@ powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/s
 3. ✅ **下载配置** - 自动下载最新的 `docker-compose.yml`
 4. ✅ **拉取镜像** - 从 GitHub Container Registry 拉取最新镜像
 5. ✅ **清理旧容器** - 停止并删除旧的容器（如果存在）
-6. ✅ **启动服务** - 使用 docker-compose 启动服务
+6. ✅ **启动服务** - 使用 docker compose 启动服务
 7. ✅ **状态检查** - 验证服务是否正常运行
 
 ## 📊 服务信息
@@ -48,10 +48,10 @@ powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/s
 docker logs flyshadow-agent
 
 # 停止服务
-docker-compose down
+docker compose down
 
 # 重启服务
-docker-compose restart
+docker compose restart
 
 # 更新服务
 ./deploy.sh

@@ -33,6 +33,10 @@ if [ -n "$FLYSHADOW_NODE_ID" ]; then
     AGENT_NODE_ID="$FLYSHADOW_NODE_ID"
 fi
 
+# 设置Docker Compose需要的环境变量
+export AGENT_PASSWORD="$AGENT_PASSWORD"
+export AGENT_NODE_ID="$AGENT_NODE_ID"
+
 # 打印带颜色的消息
 print_message() {
     echo -e "${GREEN}[INFO]${NC} $1"
@@ -79,7 +83,7 @@ check_docker() {
         exit 1
     fi
     
-    if ! command -v docker-compose &> /dev/null; then
+    if ! docker compose version &> /dev/null; then
         print_error "Docker Compose 未安装，请先安装 Docker Compose"
         exit 1
     fi
@@ -220,7 +224,7 @@ cleanup_old_container() {
 start_service() {
     print_step "启动 FlyShadow Agent 服务..."
     
-    if docker-compose up -d; then
+    if docker compose up -d; then
         print_message "服务启动成功"
     else
         print_error "服务启动失败"
@@ -245,8 +249,8 @@ check_status() {
         echo ""
         echo "🔧 常用命令："
         echo "   - 查看日志: docker logs $CONTAINER_NAME"
-        echo "   - 停止服务: docker-compose down"
-        echo "   - 重启服务: docker-compose restart"
+        echo "   - 停止服务: docker compose down"
+        echo "   - 重启服务: docker compose restart"
         echo "   - 更新服务: ./deploy.sh"
     else
         print_error "❌ 服务启动失败，请检查日志"
@@ -272,6 +276,8 @@ show_help() {
     echo "环境变量:"
     echo "  FLYSHADOW_PASSWORD     设置Agent密码"
     echo "  FLYSHADOW_NODE_ID      设置节点ID"
+    echo "  AGENT_PASSWORD         设置Agent密码（Docker Compose）"
+    echo "  AGENT_NODE_ID          设置节点ID（Docker Compose）"
     echo ""
     echo "示例:"
     echo "  $0                                    # 交互式部署"
@@ -283,6 +289,7 @@ show_help() {
     echo "一键部署示例:"
     echo "  echo 'mypassword' | $0 -p \$(cat) -n mynode123"
     echo "  FLYSHADOW_PASSWORD=mypass FLYSHADOW_NODE_ID=mynode $0"
+    echo "  curl -fsSL https://raw.githubusercontent.com/sebastian0619/flyshadow-agent/main/deploy.sh | FLYSHADOW_PASSWORD=mypass FLYSHADOW_NODE_ID=mynode bash"
 }
 
 # 主函数

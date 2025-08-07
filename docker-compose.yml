@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   flyshadow-agent:
     image: ghcr.io/sebastian0619/flyshadow-agent:latest
